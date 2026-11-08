@@ -48,10 +48,16 @@ public final class GlowManager {
     private final Map<UUID, GlowColor> shown = new ConcurrentHashMap<>();
     private final Random random = new Random();
 
+    private static final int TICK = 2; // таймер срабатывает раз в 2 тика (0.1 сек)
+
     private ColorMode colorMode = ColorMode.TEAM;
     private List<GlowColor> glitterColors = List.of(RAINBOW_ORDER);
     private BukkitTask task;
-    private int step;
+    private int rainbowInterval = 20;
+    private int glitterInterval = 4;
+    private int rainbowTimer;
+    private int glitterTimer;
+    private int rainbowStep;
 
     public GlowManager(VWGlow plugin) {
         this.plugin = plugin;
@@ -83,9 +89,10 @@ public final class GlowManager {
         }
         if (!list.isEmpty()) glitterColors = List.copyOf(list);
 
-        long interval = Math.max(2, plugin.getConfig().getLong("effect-interval-ticks", 10));
+        rainbowInterval = Math.max(TICK, plugin.getConfig().getInt("rainbow-interval-ticks", 20));
+        glitterInterval = Math.max(TICK, plugin.getConfig().getInt("glitter-interval-ticks", 4));
         if (task != null) task.cancel();
-        task = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, interval, interval);
+        task = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, TICK, TICK);
 
         for (Player p : Bukkit.getOnlinePlayers()) load(p);
     }
@@ -153,13 +160,29 @@ public final class GlowManager {
 
     // ---------------------------------------------------------------- показ
 
+    /**
+     * Радуга и глиттер идут каждый в своём темпе:
+     * радуга — спокойно по кругу (по умолчанию 1 цвет в секунду),
+     * глиттер — быстро и вразнобой (по умолчанию 5 раз в секунду).
+     */
     private void tick() {
-        step++;
-        for (Player p : Bukkit.getOnlinePlayers()) refresh(p);
+        rainbowTimer += TICK;
+        if (rainbowTimer >= rainbowInterval) {
+            rainbowTimer = 0;
+            rainbowStep++;
+        }
+        glitterTimer += TICK;
+        boolean reroll = glitterTimer >= glitterInterval;
+        if (reroll) glitterTimer = 0;
+        for (Player p : Bukkit.getOnlinePlayers()) refresh(p, reroll);
     }
 
     /** Включает, перекрашивает или выключает свечение по текущему выбору, правам и состоянию игрока. */
     public void refresh(Player p) {
+        refresh(p, false);
+    }
+
+    private void refresh(Player p, boolean reroll) {
         String m = modes.get(p.getUniqueId());
         if (m == null || !canUse(p, m) || isHidden(p)) {
             hide(p);
@@ -167,9 +190,10 @@ public final class GlowManager {
         }
         GlowColor c;
         if (RAINBOW.equals(m)) {
-            c = RAINBOW_ORDER[Math.floorMod(step, RAINBOW_ORDER.length)];
+            c = RAINBOW_ORDER[Math.floorMod(rainbowStep, RAINBOW_ORDER.length)];
         } else if (GLITTER.equals(m)) {
-            c = glitterColors.get(random.nextInt(glitterColors.size()));
+            GlowColor now = shown.get(p.getUniqueId());
+            c = (reroll || now == null || !glitterColors.contains(now)) ? randomGlitter(now) : now;
         } else {
             c = GlowColor.byId(m);
         }
@@ -178,6 +202,16 @@ public final class GlowManager {
             return;
         }
         show(p, c);
+    }
+
+    /** Случайный цвет глиттера, но не тот же, что сейчас — иначе мерцание «замирает». */
+    private GlowColor randomGlitter(GlowColor now) {
+        if (glitterColors.size() == 1) return glitterColors.get(0);
+        GlowColor c;
+        do {
+            c = glitterColors.get(random.nextInt(glitterColors.size()));
+        } while (c == now);
+        return c;
     }
 
     private void show(Player p, GlowColor c) {

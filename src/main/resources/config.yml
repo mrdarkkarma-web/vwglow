@@ -9,9 +9,13 @@
 #   team — своими командами (только если TAB нет: TAB перезапишет команды)
 color-mode: auto
 
-# Как часто меняется цвет у «Радуги» и «Глиттера» (в тиках, 20 = 1 сек).
-# В режиме TAB быстрее, чем обновляется %vwglow_color% в TAB, смысла нет (там 500 мс = 10 тиков).
-effect-interval-ticks: 10
+# Скорость эффектов (в тиках, 20 = 1 сек, минимум 2).
+# Радуга — цвета по кругу: красный → оранжевый → жёлтый → зелёный → голубой → синий → розовый.
+rainbow-interval-ticks: 20
+# Глиттер — быстрое мерцание случайными цветами.
+glitter-interval-ticks: 4
+# В режиме TAB цвет не сменится быстрее, чем TAB обновляет %vwglow_color%
+# (plugins/TAB/config.yml → placeholder-refresh-intervals, там стоит 100 мс = 2 тика).
 
 # Цвета ранга MVP (для подсказки «доступно с ...» в меню). Права выдаются в LuckPerms.
 mvp-colors: [red, yellow, green, aqua, blue, light_purple]
@@ -60,8 +64,8 @@ messages:
   menu-selected: "<green>▶ Выбрано"
   menu-click: "<yellow>Нажми, чтобы выбрать"
   menu-locked: "<red>✖ Доступно с ранга <white><rank></white>"
-  menu-rainbow-desc: "<gray>Плавно переливается по цветам"
-  menu-glitter-desc: "<gray>Мерцает случайными цветами"
+  menu-rainbow-desc: "<gray>Спокойно меняет цвета по кругу радуги"
+  menu-glitter-desc: "<gray>Быстро мерцает случайными цветами"
   menu-off-title: "<red><bold>Выключить"
   menu-off-hint: "<gray>Нажми, чтобы убрать свечение"
   menu-off-already: "<dark_gray>Свечение уже выключено"

@@ -71,13 +71,9 @@ public final class GlowMenu implements InventoryHolder {
         inventory.clear();
         String current = plugin.manager().mode(p);
 
-        ItemStack frame = item(Material.BLACK_STAINED_GLASS_PANE, Component.text(" "), List.of(), false);
-        ItemStack inner = item(Material.GRAY_STAINED_GLASS_PANE, Component.text(" "), List.of(), false);
-        for (int i = 0; i < 54; i++) {
-            int row = i / 9, col = i % 9;
-            boolean edge = row == 0 || row == 5 || col == 0 || col == 8;
-            inventory.setItem(i, edge ? frame : inner);
-        }
+        // Однотонный фон: серые стёкла внутри выглядели как «дырки» в меню
+        ItemStack filler = item(Material.BLACK_STAINED_GLASS_PANE, Component.text(" "), List.of(), false);
+        for (int i = 0; i < 54; i++) inventory.setItem(i, filler);
 
         // Заголовок
         List<Component> infoLore = new ArrayList<>();

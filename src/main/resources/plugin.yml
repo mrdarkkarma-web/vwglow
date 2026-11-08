@@ -18,8 +18,12 @@ permissions:
     description: Открывать меню /glow
     default: false
   vwglow.admin:
-    description: /glow set, /glow reload
+    description: /glow set, /glow reload + всё свечение
     default: op
+    children:
+      vwglow.use: true
+      vwglow.color.*: true
+      vwglow.effect.*: true
   vwglow.effect.rainbow:
     description: Эффект «Радуга»
     default: false
