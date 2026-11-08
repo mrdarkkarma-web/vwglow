@@ -1,0 +1,54 @@
+name: VWGlow
+version: '${version}'
+main: online.vanillaway.glow.VWGlow
+api-version: '1.21'
+author: VanillaWay
+description: Цветное свечение игроков с меню выбора цвета (ПК и Bedrock).
+website: https://vanillaway.online
+softdepend: [PlaceholderAPI, TAB, floodgate, PremiumVanish]
+
+commands:
+  glow:
+    description: Меню свечения
+    usage: /glow [цвет|rainbow|glitter|off]
+    aliases: [svechenie]
+
+permissions:
+  vwglow.use:
+    description: Открывать меню /glow
+    default: false
+  vwglow.admin:
+    description: /glow set, /glow reload
+    default: op
+  vwglow.effect.rainbow:
+    description: Эффект «Радуга»
+    default: false
+  vwglow.effect.glitter:
+    description: Эффект «Глиттер»
+    default: false
+  vwglow.effect.*:
+    description: Все эффекты
+    default: false
+    children:
+      vwglow.effect.rainbow: true
+      vwglow.effect.glitter: true
+  vwglow.color.*:
+    description: Все 16 цветов
+    default: false
+    children:
+      vwglow.color.red: true
+      vwglow.color.gold: true
+      vwglow.color.yellow: true
+      vwglow.color.green: true
+      vwglow.color.aqua: true
+      vwglow.color.blue: true
+      vwglow.color.light_purple: true
+      vwglow.color.dark_red: true
+      vwglow.color.dark_green: true
+      vwglow.color.dark_aqua: true
+      vwglow.color.dark_blue: true
+      vwglow.color.dark_purple: true
+      vwglow.color.gray: true
+      vwglow.color.dark_gray: true
+      vwglow.color.white: true
+      vwglow.color.black: true

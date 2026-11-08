@@ -1,0 +1,68 @@
+# ══════════════════════════════════════════════════════════════
+#  VWGlow — свечение игроков VanillaWay
+#  После правок: /glow reload
+# ══════════════════════════════════════════════════════════════
+
+# Как красить свечение:
+#   auto — через TAB, если он стоит, иначе своими командами scoreboard
+#   tab  — через TAB: в groups.yml в конец tagprefix добавь %vwglow_color%
+#   team — своими командами (только если TAB нет: TAB перезапишет команды)
+color-mode: auto
+
+# Как часто меняется цвет у «Радуги» и «Глиттера» (в тиках, 20 = 1 сек).
+# В режиме TAB быстрее, чем обновляется %vwglow_color% в TAB, смысла нет (там 500 мс = 10 тиков).
+effect-interval-ticks: 10
+
+# Цвета ранга MVP (для подсказки «доступно с ...» в меню). Права выдаются в LuckPerms.
+mvp-colors: [red, yellow, green, aqua, blue, light_purple]
+
+# Из каких цветов мерцает «Глиттер».
+glitter-colors: [red, gold, yellow, green, aqua, blue, light_purple, white]
+
+# Названия рангов в подсказках.
+rank-names:
+  basic: MVP     # с какого ранга доступны цвета из mvp-colors
+  full: MVP+     # с какого ранга доступно всё остальное
+
+# Тексты формы для Bedrock (& — цвета).
+bedrock:
+  title: "Свечение"
+  content: "Сейчас: {current}\n\nВыбери цвет свечения:"
+  rainbow: "&cР&6а&eд&aу&bг&dа"
+  glitter: "&dГ&bл&eи&aт&cт&6е&dр"
+  off: "&7Выключить свечение"
+
+# Тексты (MiniMessage: <green>, <bold>, <click:open_url:'...'> и т.д.)
+messages:
+  prefix: "<dark_gray>[<gradient:#55ffff:#ff55ff>Свечение</gradient>]</dark_gray> "
+  no-permission: "<gray>Свечение доступно с ранга <aqua>MVP</aqua>. Ранги — на <click:open_url:'https://vanillaway.online/#donate'><white><u>vanillaway.online</u></white></click>"
+  locked: "<red>Этот вариант доступен с ранга <white><rank></white>.</red> <gray>Ранги — на <click:open_url:'https://vanillaway.online/#donate'><white><u>vanillaway.online</u></white></click>"
+  selected: "<gray>Свечение:</gray> <glow>"
+  disabled: "<gray>Свечение выключено."
+  usage: "<gray>/glow — меню, /glow <white>цвет</white> — выбрать сразу, /glow <white>off</white> — выключить."
+  admin-usage: "<gray>/glow set <white><игрок> <цвет|rainbow|glitter|off></white>"
+  player-not-found: "<red>Игрок <white><player></white> не в сети."
+  unknown-mode: "<red>Нет такого цвета: <white><mode></white>"
+  set-other: "<gray>Свечение игрока <white><player></white>: <glow>"
+  reloaded: "<green>Конфиг перезагружен."
+  players-only: "<red>Только для игроков."
+
+  # Названия режимов
+  name-off: "<gray>выключено"
+  name-rainbow: "<red>Р</red><gold>а</gold><yellow>д</yellow><green>у</green><aqua>г</aqua><light_purple>а</light_purple>"
+  name-glitter: "<light_purple>Г</light_purple><aqua>л</aqua><yellow>и</yellow><green>т</green><red>т</red><gold>е</gold><light_purple>р</light_purple>"
+
+  # Меню
+  menu-title: "<dark_gray>Свечение"
+  menu-info-title: "<gradient:#55ffff:#ff55ff><bold>Свечение</bold></gradient>"
+  menu-info-current: "<gray>Сейчас: <glow>"
+  menu-info-hint: "<dark_gray>Тебя видно сквозь стены цветным контуром."
+  menu-selected: "<green>▶ Выбрано"
+  menu-click: "<yellow>Нажми, чтобы выбрать"
+  menu-locked: "<red>✖ Доступно с ранга <white><rank></white>"
+  menu-rainbow-desc: "<gray>Плавно переливается по цветам"
+  menu-glitter-desc: "<gray>Мерцает случайными цветами"
+  menu-off-title: "<red><bold>Выключить"
+  menu-off-hint: "<gray>Нажми, чтобы убрать свечение"
+  menu-off-already: "<dark_gray>Свечение уже выключено"
+  menu-close: "<gray>Закрыть"
